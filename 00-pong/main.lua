@@ -4,6 +4,14 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 432
 VIRTUAL_HEIGHT = 243
 
+PADDLE_H = 20
+PADDLE_W = 5
+
+PADDLE_X_MARGIN = 10
+PADDLE_Y_MARGIN = 10
+
+PADDLE_VERTICAL_SPEED = 200
+
 push = require 'push'
 
 function love.load()
@@ -14,6 +22,12 @@ function love.load()
     player1Score = 0
     player2Score = 0
 
+    player1x = PADDLE_X_MARGIN
+    player1y = PADDLE_Y_MARGIN
+    player2x = VIRTUAL_WIDTH - PADDLE_X_MARGIN - PADDLE_W
+    player2y = VIRTUAL_HEIGHT - PADDLE_Y_MARGIN - PADDLE_H
+
+
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
         resizable = false,
         vsync = true,
@@ -23,6 +37,20 @@ function love.load()
 end
 
 function love.update(dt)
+    if love.keyboard.isDown('w') then
+        player1y = player1y + -PADDLE_VERTICAL_SPEED * dt
+
+    end
+    if love.keyboard.isDown('s') then
+        player1y = player1y + PADDLE_VERTICAL_SPEED * dt
+    end
+    if love.keyboard.isDown('up') then
+        player2y = player2y + -PADDLE_VERTICAL_SPEED * dt
+
+    end
+    if love.keyboard.isDown('down') then
+        player2y = player2y + PADDLE_VERTICAL_SPEED * dt
+    end
 end
 
 function love.keypressed(key)
@@ -39,10 +67,10 @@ function love.draw()
     love.graphics.print(tostring(player2Score), VIRTUAL_WIDTH / 2 + 30, VIRTUAL_HEIGHT / 2 - 80)
     
     -- paddle 1
-    love.graphics.rectangle('fill', 10, 10, 5, 20)
+    love.graphics.rectangle('fill', player1x, player1y, PADDLE_W, PADDLE_H)
 
     -- paddle 2
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 10 - 5, VIRTUAL_HEIGHT - 10 - 20, 5, 20)
+    love.graphics.rectangle('fill', player2x, player2y, PADDLE_W, PADDLE_H)
 
     -- ball
     love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
