@@ -37,19 +37,22 @@ function love.load()
 end
 
 function love.update(dt)
-    if love.keyboard.isDown('w') then
-        player1y = player1y + -PADDLE_VERTICAL_SPEED * dt
 
+    -- These don't curently need to be called every frame - keeping here in case paddle margins or paddle size might change
+    paddle_min_y = PADDLE_Y_MARGIN
+    paddle_max_y = VIRTUAL_HEIGHT - PADDLE_H - PADDLE_Y_MARGIN
+    
+    if love.keyboard.isDown('w') then
+        player1y = math.max(paddle_min_y, player1y + -PADDLE_VERTICAL_SPEED * dt)
     end
     if love.keyboard.isDown('s') then
-        player1y = player1y + PADDLE_VERTICAL_SPEED * dt
+        player1y = math.min(paddle_max_y, player1y + PADDLE_VERTICAL_SPEED * dt)
     end
     if love.keyboard.isDown('up') then
-        player2y = player2y + -PADDLE_VERTICAL_SPEED * dt
-
+        player2y = math.max(paddle_min_y, player2y + -PADDLE_VERTICAL_SPEED * dt)
     end
     if love.keyboard.isDown('down') then
-        player2y = player2y + PADDLE_VERTICAL_SPEED * dt
+        player2y = math.min(paddle_max_y, player2y + PADDLE_VERTICAL_SPEED * dt)
     end
 end
 
