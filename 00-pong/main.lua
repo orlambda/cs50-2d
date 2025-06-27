@@ -10,6 +10,9 @@ PADDLE_W = 5
 PADDLE_X_MARGIN = 10
 PADDLE_Y_MARGIN = 10
 
+-- ball is a square
+BALL_SIDE_LENGTH = 7
+
 PADDLE_VERTICAL_SPEED = 200
 
 push = require 'push'
@@ -19,6 +22,8 @@ function love.load()
     largeFont = love.graphics.newFont('VCR_OSD_MONO.ttf', 32)
     smallFont = love.graphics.newFont('VCR_OSD_MONO.ttf', 8)
 
+    math.randomseed(os.time())
+
     player1Score = 0
     player2Score = 0
 
@@ -26,6 +31,9 @@ function love.load()
     player1y = PADDLE_Y_MARGIN
     player2x = VIRTUAL_WIDTH - PADDLE_X_MARGIN - PADDLE_W
     player2y = VIRTUAL_HEIGHT - PADDLE_Y_MARGIN - PADDLE_H
+
+    ball_x = VIRTUAL_WIDTH / 2 - BALL_SIDE_LENGTH / 2
+    ball_y = VIRTUAL_HEIGHT / 2 - BALL_SIDE_LENGTH / 2
 
 
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -76,7 +84,7 @@ function love.draw()
     love.graphics.rectangle('fill', player2x, player2y, PADDLE_W, PADDLE_H)
 
     -- ball
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
+    love.graphics.rectangle('fill', ball_x, ball_y, BALL_SIDE_LENGTH, BALL_SIDE_LENGTH)
 
     push:finish()
 end
